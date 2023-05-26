@@ -15,23 +15,23 @@ public class MainGrafo {
     grafo.agregarVertice(4);
     grafo.agregarVertice(6);
     grafo.agregarVertice(5);
-    grafo.agregarVertice(9);
-    
+    grafo.agregarVertice(8);
 
-    grafo.agregarArco(3, 1, null);
-    grafo.agregarArco(4, 6, null);
-    grafo.agregarArco(8, 6, null);
-    grafo.agregarArco(8, 4, null);
-    grafo.agregarArco(8, 7, null);
-    grafo.agregarArco(1, 2, null);
-    grafo.agregarArco(1, 4, null);
-    grafo.agregarArco(5,3 , null);
-    grafo.agregarArco(7, 5, null);
-    grafo.agregarArco(2,3 , null);
-    grafo.agregarArco(6, 5, null);
-    grafo.agregarArco(4, 5, null);
-    grafo.agregarArco(1, 5, null);
-    grafo.agregarArco(2, 5, null);
+
+    grafo.agregarArco(3, 1, 10);
+    grafo.agregarArco(4, 6, 15);
+    grafo.agregarArco(8, 6, 20);
+    grafo.agregarArco(8, 4, 25);
+    grafo.agregarArco(8, 7, 30);
+    grafo.agregarArco(1, 2, 35);
+    grafo.agregarArco(1, 4, 40);
+    grafo.agregarArco(5,3 , 45);
+    grafo.agregarArco(7, 5, 50);
+    grafo.agregarArco(2,3 , 55);
+    grafo.agregarArco(6, 5, 60);
+    grafo.agregarArco(4, 5, 65);
+    grafo.agregarArco(1, 5, 70);
+    grafo.agregarArco(2, 5, 75);
 
     /* 
     System.out.println(" Grafo ");
@@ -152,7 +152,7 @@ public class MainGrafo {
     System.out.println(grafo.contieneVertice(8));
 
 
-    ServicioCaminos caminos = new ServicioCaminos(grafo, 1, 3, 3);
+    ServicioCaminos caminos = new ServicioCaminos(grafo, 1, 3, 4);
     System.out.println("-----------CAMINOS-------------");
     System.out.println("Main: " +caminos.caminos());
     }

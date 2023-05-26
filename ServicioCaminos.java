@@ -44,10 +44,9 @@ public class ServicioCaminos {
 	
 	private void obternerCaminos(int verticeId , int destino,  int lim, List<Integer> caminoParcial){
 
-		
 		System.out.println("-----------");
 		System.out.println("origen: "+verticeId+" - destino: "+destino+ " caminos posibles "+ caminoParcial);
-		
+
 
 		if(verticeId ==  this.destino){ //Si se encontró el vertice destino
 			ArrayList<Integer> aux = new ArrayList<>();
@@ -72,8 +71,11 @@ public class ServicioCaminos {
 					Integer verticeAdyacente = arcoSaliente.getVerticeDestino();  // me quedo con el vertice destino que será mi próximo vertice origen
 
 					caminoParcial.add(verticeAdyacente);
-				    this.arcosRecorridos.add(arcoSaliente);					
+				    this.arcosRecorridos.add(arcoSaliente);
+
+					// llamado recursivo
 					this.obternerCaminos(verticeAdyacente, destino, lim, caminoParcial);
+
 					caminoParcial.remove(verticeAdyacente);
 				    this.arcosRecorridos.remove(arcoSaliente);
 					
