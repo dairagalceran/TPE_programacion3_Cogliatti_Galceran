@@ -23,23 +23,16 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public void borrarVertice(int verticeId) {
-		Iterator<Integer> verticeIdIterator = this.matrizAdyacencia.keySet().iterator(); // O(1)
-		while(verticeIdIterator.hasNext()){   // // O(V) puede ser que en el peor de los casas  deba recorrer todos los vertices para encontrar en que busca borrar
-			Integer vertice = verticeIdIterator.next();  // O(1)
-			if(vertice != verticeId){ 
-				ArrayList<Arco<T>> arcosQueNoApuntanAlVerticeBorrado = new ArrayList<Arco<T>>();
-				ArrayList<Arco<T>> arcos = this.matrizAdyacencia.get(vertice); // O(1)
-				Iterator<Arco<T>> arcosIterator = arcos.iterator(); // O(1)
-				while(arcosIterator.hasNext()){   // O(A) siendo A arcos que apuntan al vertice borrado
-					Arco<T> arco = arcosIterator.next(); // O(1)
-					if(arco.getVerticeDestino() != verticeId){
-						arcosQueNoApuntanAlVerticeBorrado.add(arco); // O(1)
-					}
+		if(this.contieneVertice(verticeId)){
+			this.matrizAdyacencia.remove(verticeId);
+			for (Integer key : matrizAdyacencia.keySet()){
+
+				for(Arco<T> arco : matrizAdyacencia.get(key)){
+					if(arco.getVerticeDestino() == verticeId)
+						this.matrizAdyacencia.get(key).remove(arco);
 				}
-				this.matrizAdyacencia.replace(vertice, arcosQueNoApuntanAlVerticeBorrado); // O(1)
 			}
 		}
-		this.matrizAdyacencia.remove(verticeId); // O(1)
 	}
 	
 	/**
@@ -220,18 +213,31 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		return listadoVacio.iterator() ;
 	}
 
+//	@Override
+//	public void imprimirGrafo(){
+//		for(int v: matrizAdyacencia.keySet()){
+//			System.out.print(v+ ": ");
+//
+//			for(Arco<T> arco: matrizAdyacencia.get(v)){
+//				System.out.print(arco.getVerticeDestino() + "( " + arco.getEtiqueta()+ ") ");
+//
+//			}
+//			System.out.println();
+//		}
+//	}
+
+	///////////////////////////////////// TO STRING GRAFO /////////////////////////////////////
+
 	@Override
-	public void imprimirGrafo(){
-		for(int v: matrizAdyacencia.keySet()){
-			System.out.print(v+ ": ");
-
-			for(Arco<T> arco: matrizAdyacencia.get(v)){
-				System.out.print(arco.getVerticeDestino() + "( " + arco.getEtiqueta()+ ") ");
-
+	public String toString(){
+		String data = "";
+		for(Integer key: matrizAdyacencia.keySet()){
+			data += "Vertice #" + key + "\n";
+			for(Arco<T> arco: matrizAdyacencia.get(key)){
+				data += "		-> Arco: "+ arco.toString() + "\n";
 			}
-			System.out.println();
 		}
+		return data;
 	}
-
 
 } 

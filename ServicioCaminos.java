@@ -30,63 +30,43 @@ public class ServicioCaminos {
 		
 		List<Integer> caminosPosibles = new ArrayList<Integer>();
 		caminosPosibles.add(this.origen);
-		
 
-		this.obternerCaminos(this.origen , this.destino, this.lim, caminosPosibles);
-			
-
-			System.out.println("camino cumple en caminos() "+this.caminosQueCumplen);
+		this.obternerCaminos(this.origen, caminosPosibles);
 		return  this.caminosQueCumplen;
 	}
 
 
 
 	
-	private void obternerCaminos(int verticeId , int destino,  int lim, List<Integer> caminoParcial){
+	private void obternerCaminos(int verticeId , List<Integer> caminoParcial) {
 
-		System.out.println("-----------");
-		System.out.println("origen: "+verticeId+" - destino: "+destino+ " caminos posibles "+ caminoParcial);
+		// verificar que el camino parcial no exeda el limite
+		if (caminoParcial.size() < this.lim) {
 
+			//Si se encontró el vertice destino
+			if (verticeId == this.destino) {
+				ArrayList<Integer> aux = new ArrayList<>(); // Guardamos la solucion en un array auxiliar
+				aux.addAll(caminoParcial);
+				this.caminosQueCumplen.add(aux);  //Agrego el camino posible a la lista de camins que cumplen
+			} else {
+				Iterator<?> iteratorArcosSalientes = (Iterator<?>) this.grafo.obtenerArcos(verticeId); // Itero los arcos salientes desde verticeId
+				while (iteratorArcosSalientes.hasNext()) {
+					Arco<?> arcoSaliente = (Arco<?>) iteratorArcosSalientes.next();
 
-		if(verticeId ==  this.destino){ //Si se encontró el vertice destino
-			ArrayList<Integer> aux = new ArrayList<>();
-			aux.addAll(caminoParcial);//*Guardamos la solucion
-																			System.out.println("----------");
-																			System.out.println("dentro del if origen = destino ");
-																			System.out.println("caminoParcial =>  " + caminoParcial);
-			this.caminosQueCumplen.add(aux);  //Agrego el camino posible a la lista de camins que cumplen
-																			System.out.println("camino cumple "+ this.caminosQueCumplen);
-																			System.out.println("camino  parcial del if cumple "+ caminoParcial);
-																
-		}else{
+					// si el  nuevo arco obtenido por el iterador no fue recorrido
+					if (!this.arcosRecorridos.contains(arcoSaliente)) {
+						Integer verticeAdyacente = arcoSaliente.getVerticeDestino();  // me quedo con el vertice destino que será mi próximo vertice origen
+						caminoParcial.add(verticeAdyacente);
+						this.arcosRecorridos.add(arcoSaliente);
 
-			Iterator<?> iteratorArcosSalientes = (Iterator<?>) this.grafo.obtenerArcos(verticeId); // Itero los arcos salientes desde verticeId
+						// llamado recursivo
+						this.obternerCaminos(verticeAdyacente, caminoParcial);
 
-			while(iteratorArcosSalientes.hasNext()){
-
-				Arco<?> arcoSaliente = (Arco<?>) iteratorArcosSalientes.next();
-																System.out.println(" arco saliente "+arcoSaliente);
-				if(!this.arcosRecorridos.contains(arcoSaliente) && caminoParcial.size() < lim ){ // si el  nuevo arco obtenido por el iterador no fue recorrido
-
-					Integer verticeAdyacente = arcoSaliente.getVerticeDestino();  // me quedo con el vertice destino que será mi próximo vertice origen
-
-					caminoParcial.add(verticeAdyacente);
-				    this.arcosRecorridos.add(arcoSaliente);
-
-					// llamado recursivo
-					this.obternerCaminos(verticeAdyacente, destino, lim, caminoParcial);
-
-					caminoParcial.remove(verticeAdyacente);
-				    this.arcosRecorridos.remove(arcoSaliente);
-					
+						caminoParcial.remove(verticeAdyacente);
+						this.arcosRecorridos.remove(arcoSaliente);
+					}
 				}
-				
-			}	
-			
+			}
 		}
-		
 	}
-
-
-	
 }

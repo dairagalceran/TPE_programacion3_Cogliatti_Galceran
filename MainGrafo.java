@@ -1,13 +1,19 @@
-
-
+import java.util.Iterator;
 
 public class MainGrafo {
     
     public static void main(String[] args) {
-        
 
+    /*
+    *
+    *   SETUP DE GRAFO
+    *
+    */
+
+    // instanciamos grafo
     GrafoDirigido grafo = new GrafoDirigido<>();
 
+    // carga de vertices
     grafo.agregarVertice(7);
     grafo.agregarVertice(1);
     grafo.agregarVertice(2);
@@ -33,83 +39,107 @@ public class MainGrafo {
     grafo.agregarArco(1, 5, 70);
     grafo.agregarArco(2, 5, 75);
 
-    /* 
+
+
+    /*
+     *
+     *   TESTEO DE METODOS DE GRAFO
+     *
+     */
+
+
+
+    // imprimir grafo
+    System.out.println("-------------------------------");
     System.out.println(" Grafo ");
-    grafo.imprimirGrafo();
+    System.out.println(grafo);
 
-
-    System.out.println("borrar  v:2");
+    // borrar vertice
+    System.out.println("-------------------------------");
+    System.out.println("borrar vértice #2");
     grafo.borrarVertice(2);
-    grafo.imprimirGrafo();
+    System.out.println(grafo);
 
-    
-    System.out.println("delete  v:2");
-    grafo.deleteVertice(2);
-    grafo.imprimirGrafo();
-    
-    System.out.println("agregar arco: 2,4; 7,2 ; 3,2");
-    grafo.agregarArco(2, 4, null);
-    grafo.agregarArco(7, 2, null);
-    grafo.agregarArco(3, 2, null);
-    grafo.imprimirGrafo();
+    // agregar vertice
+    System.out.println("-------------------------------");
+    System.out.println("Agregar arcos:\n      #2 -> #3\n      #2 -> #4\n      #1 -> #2\n      #2 -> #4\"");
+    grafo.agregarVertice(2);
+    grafo.agregarArco(1, 2, 35);
+    grafo.agregarArco(2,3 , 55);
+    grafo.agregarArco(2, 5, 75);
+    System.out.println(grafo);
 
-    System.out.println(" borrar arco: 1,1");
-    grafo.borrarArco(1, 1);
-    grafo.imprimirGrafo();
+    // borrar arco
+    System.out.println("-------------------------------");
+    System.out.println(" borrar arco: #2 -> #4");
+    grafo.borrarArco(2, 4);
+    System.out.println(grafo);
 
-    System.out.println(" contiene v:6");
+    // verificar contiene vertice
+    System.out.println("-------------------------------");
+    System.out.println("Grafo contiene vertice #6 ?");
     System.out.println(grafo.contieneVertice(6));
+    System.out.println("Grafo contiene vertice #9 ?");
+    System.out.println(grafo.contieneVertice(9));
 
-    System.out.println(" contiene v:3");
-    System.out.println(grafo.contieneVertice(3));
-
-    System.out.println(" contiene arco:7,2");
+    // verificar contiene arco
+    System.out.println("-------------------------------");
+    System.out.println("Grafo contiene arco #7 -> #2 ?");
     System.out.println(grafo.existeArco(7,2));
-    
+    System.out.println("Grafo contiene arco #1 -> #2 ?");
+    System.out.println(grafo.obtenerArco(1,2));
 
-    System.out.println(" contiene arco:7,2");
-    System.out.println(grafo.obtenerArco(7,2));
+    // mostar arcos
+    System.out.println("-------------------------------");
+    System.out.println("Cantidad de arcos en el grafo: " + grafo.cantidadArcos());
 
-    System.out.println(" cantidad vertices");
-    System.out.println(grafo.cantidadVertices());
+    System.out.println("Los arcos del grafo son:");
+    Iterator<Arco<Integer>> itA = grafo.obtenerArcos();
+    while (itA.hasNext()) {
+        Arco<Integer> a = itA.next();
+        System.out.println(a + "  ");
+    }
 
-    System.out.println(" cantidad arcos");
-    System.out.println(grafo.cantidadArcos());
+    // motrar vertices
+    System.out.println("-------------------------------");
+    System.out.println("Cantidad de vertices en el grafo: "+ grafo.cantidadVertices());
 
-    
-    System.out.println(" obtener vertices");
-    Iterator<Integer> iteratorVertices = grafo.obtenerVertices(); 
-    System.out.print("Vértices de la matriz de adyacencia: ");
-    while(iteratorVertices.hasNext()){
-        Integer vertice = iteratorVertices.next();
-        System.out.print(" " +vertice + ", ");
-    };
+    System.out.println("Los vertices del grafo son:");
+    Iterator<Integer> iterador = grafo.obtenerVertices();
+    while (iterador.hasNext()) {
+        Integer v = iterador.next();
+        System.out.print(v + "  ");
+    }
+    System.out.println("");
 
-    System.out.println();
-
-    System.out.println(" obtener arcos adyacentes de  v:1");
+    // obtener vertices adyacentes
+    System.out.println("-------------------------------");
+    System.out.println("Adyacentes del vértice #4");
     int vertAdyacente= 4;
     Iterator <Integer> iteratorVerticesAdyacentes = grafo.obtenerAdyacentes(vertAdyacente);
     while( iteratorVerticesAdyacentes.hasNext()){
         Integer vertice = iteratorVerticesAdyacentes.next();
-        System.out.println("Adyacentes del vertice " + vertAdyacente+" : "+ vertice);
+        System.out.println("        -> #"+ vertice);
     }
-    
 
-    System.out.println("Obtener  arcos del v:1");
+    // obtener arcos de un vertice
+    System.out.println("-------------------------------");
+    System.out.println("Obtener arcos del vértice #1");
     Iterator<Arco<Integer>> iteratorArcos  = grafo.obtenerArcos(vertAdyacente);
     while(iteratorArcos.hasNext()){
         Arco<Integer> arco = iteratorArcos.next();
         System.out.println(arco +  " , ");
     }
 
-    System.out.println("Obtener  arcos ");
-    iteratorArcos  = grafo.obtenerArcos();
-    while(iteratorArcos.hasNext()){
-        Arco<Integer> arco = iteratorArcos.next();
-        System.out.println(arco +  " , ");
-    }
-    */
+
+
+    /*
+     *
+     *   TESTEO DE SERVICIOS
+     *
+     */
+
+
 
     GrafoDirigido grafoBFS = new GrafoDirigido<>();
 
@@ -120,9 +150,6 @@ public class MainGrafo {
     grafoBFS.agregarVertice(4);
     grafoBFS.agregarVertice(6);
     grafoBFS.agregarVertice(5);
-   
-    
-    
 
     grafoBFS.agregarArco(1, 3, null);
     grafoBFS.agregarArco(1, 2, null);
@@ -134,26 +161,31 @@ public class MainGrafo {
     grafoBFS.agregarArco(2,6, null);
    
     System.out.println("------grafo----------");
-    grafo.imprimirGrafo();
+    System.out.println(grafo);
 
+    // test Servicio BFS
     ServicioBFS bfs = new ServicioBFS(grafoBFS);
-
-    System.out.println("BFS");
+    System.out.println("BFS en grafo BFS");
     System.out.println(bfs.bfsForest());
 
-    
-    ServicioDFS dfs = new ServicioDFS(grafoBFS);
+    bfs = new ServicioBFS(grafo);
+    System.out.println("BFS en grafo");
+    System.out.println(bfs.bfsForest());
 
-    System.out.println("DFS del grafo BFS");
+    // test Servicio DFS
+    ServicioDFS dfs = new ServicioDFS(grafoBFS);
+    System.out.println("DFS del grafoBFS");
     System.out.println(dfs.dfsForest());
 
+    int verticeBuscado = 8;
+    System.out.println(" contiene vertice :"+verticeBuscado);
+    System.out.println(grafo.contieneVertice(verticeBuscado));
 
-    System.out.println(" contiene v:8");
-    System.out.println(grafo.contieneVertice(8));
-
-
+    // test Servicio Caminos
     ServicioCaminos caminos = new ServicioCaminos(grafo, 1, 3, 4);
     System.out.println("-----------CAMINOS-------------");
     System.out.println("Main: " +caminos.caminos());
+
+
     }
 }
