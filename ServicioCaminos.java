@@ -55,13 +55,13 @@ public class ServicioCaminos {
 					// si el  nuevo arco obtenido por el iterador no fue recorrido
 					if (!this.arcosRecorridos.contains(arcoSaliente)) {
 						Integer verticeAdyacente = arcoSaliente.getVerticeDestino();  // me quedo con el vertice destino que será mi próximo vertice origen
-						caminoParcial.add(verticeAdyacente);
 						this.arcosRecorridos.add(arcoSaliente);
+						caminoParcial.add(verticeAdyacente);
 
 						// llamado recursivo
 						this.obternerCaminos(verticeAdyacente, caminoParcial);
 
-						caminoParcial.remove(verticeAdyacente);
+						caminoParcial.remove(caminoParcial.size()-1);
 						this.arcosRecorridos.remove(arcoSaliente);
 					}
 				}
