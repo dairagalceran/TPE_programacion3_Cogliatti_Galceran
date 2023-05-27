@@ -195,10 +195,15 @@ public class MainGrafo {
     // test Servicio Caminos
     System.out.println("\n-------------------------------");
     System.out.println("Servicio Caminos en grafo:");
-    ServicioCaminos servicioCaminos = new ServicioCaminos(grafo, 1, 3, 4);
-    System.out.println("Caminos encontrados para grafo\n   Origen #1 -> destino #3\n   Limite de longitud 4\n   Caminos:");
+    int origen = 1;
+    int destino = 5;
+    int limite = 7;
+    count = 0;
+    ServicioCaminos servicioCaminos = new ServicioCaminos(grafo, origen, destino, limite);
+    System.out.println("Caminos encontrados para grafo\n   Origen #"+origen+" -> destino #"+destino+"\n   Limite de longitud "+limite+"\n   Caminos:");
         for (List<Integer> camino:  servicioCaminos.caminos()) {
-            System.out.println("        1. "+camino);
+            count ++;
+            System.out.println("        "+count+". "+camino);
         }
 
 
