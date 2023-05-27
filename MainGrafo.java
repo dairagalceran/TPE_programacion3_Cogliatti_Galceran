@@ -121,7 +121,7 @@ public class MainGrafo {
 
     // obtener vertices adyacentes
     System.out.println("\n-------------------------------");
-    int vertAdyacente= 4;
+    int vertAdyacente= 8;
     System.out.println("Adyacentes del vértice #" + vertAdyacente);
     Iterator <Integer> iteratorVerticesAdyacentes = grafo.obtenerAdyacentes(vertAdyacente);
     while( iteratorVerticesAdyacentes.hasNext()){
@@ -131,8 +131,8 @@ public class MainGrafo {
 
     // obtener arcos de un vertice
     System.out.println("\n-------------------------------");
-    System.out.println("Obtener arcos del vértice #1");
-    Iterator<Arco<Integer>> iteratorArcos  = grafo.obtenerArcos(1);
+    System.out.println("Obtener arcos del vértice #8");
+    Iterator<Arco<Integer>> iteratorArcos  = grafo.obtenerArcos(8);
     while(iteratorArcos.hasNext()){
         Arco<Integer> arco = iteratorArcos.next();
         System.out.println(arco);
@@ -197,7 +197,7 @@ public class MainGrafo {
     System.out.println("Servicio Caminos en grafo:");
     int origen = 1;
     int destino = 5;
-    int limite = 7;
+    int limite = 5;
     count = 0;
     ServicioCaminos servicioCaminos = new ServicioCaminos(grafo, origen, destino, limite);
     System.out.println("Caminos encontrados para grafo\n   Origen #"+origen+" -> destino #"+destino+"\n   Limite de longitud "+limite+"\n   Caminos:");

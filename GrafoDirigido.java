@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 public class GrafoDirigido<T> implements Grafo<T> {
 
@@ -11,15 +10,22 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		this.matrizAdyacencia = new HashMap< Integer , ArrayList<Arco<T>>>();	
 	}
 
-
+	/**
+	 ** Complejidad: O(1)  debido a que debe a que utiliza el método booleano contiene
+	 * de complejidad O(1) y un acceso al HsahMap para agregar una key
+	 */
 
 	@Override
 	public void agregarVertice(int lastVerticeId) {
-		if(!this.contieneVertice(lastVerticeId)){
-			this.matrizAdyacencia.put(lastVerticeId, new ArrayList<Arco<T>>());
+		if(!this.contieneVertice(lastVerticeId)){ //O(1)
+			this.matrizAdyacencia.put(lastVerticeId, new ArrayList<Arco<T>>()); //O(1)
 		}
 	}
 
+	/**
+      * Complejidad: O(V*a)  debido a que debe
+      * buscar por cada vertice borredo la cantidad total de arcos que apuntaban a  ese vértice 
+      */
 
 	@Override
 	public void borrarVertice(int verticeId) {
@@ -30,7 +36,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 				ArrayList<Arco<T>> arcosQueNoApuntanAlVerticeBorrado = new ArrayList<Arco<T>>();
 				ArrayList<Arco<T>> arcos = this.matrizAdyacencia.get(vertice); // O(1)
 				Iterator<Arco<T>> arcosIterator = arcos.iterator(); // O(1)
-				while(arcosIterator.hasNext()){   // O(A) siendo A arcos que apuntan al vertice borrado
+				while(arcosIterator.hasNext()){   // O(a) siendo a arcos que apuntan al vertice borrado
 					Arco<T> arco = arcosIterator.next(); // O(1)
 					if(arco.getVerticeDestino() != verticeId){
 						arcosQueNoApuntanAlVerticeBorrado.add(arco); // O(1)
@@ -55,13 +61,16 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		}
 	}
 
-	//????????????
+	/**
+      * Complejidad: O(a) = O(a) debido a que utiliza el
+      * método obtenrArco().
+      */
 
 	@Override
 	public void borrarArco(int verticeId1, int verticeId2) {
-		Arco<T> arco = this.obtenerArco(verticeId1,verticeId2);
+		Arco<T> arco = this.obtenerArco(verticeId1,verticeId2); //O(a)
 		if( arco !=null )
-			this.matrizAdyacencia.get(verticeId1).remove(arco);
+			this.matrizAdyacencia.get(verticeId1).remove(arco); //O(1) - O(1)
 	}
 
 	/**
@@ -84,18 +93,15 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
 
 	/**
-      * Complejidad: O(a) donde a es la cantidad maxima de arcos salientes desde el vertice origen  dado
-	  * debido a que debe  "buscar el vertice saliente O(1) y luego recorrer el ArrayList de arcos salientes 
-	  *  para verificar si existe un arco con destino igual al dado por parámetro, siendo
-	  *en el peor de los casos O(h), h = cantidad de arcos salientes del vertice pasado 
-	  *
+      * Complejidad: O(h) donde en el peor de los casos 
+	  *O(h), h = cantidad de arcos salientes del vertice pasado 
       */
 	@Override
 	public Arco<T> obtenerArco(int verticeId1, int verticeId2) {
-		// check existen this.vertices
-		if(!contieneVertice(verticeId1) & !contieneVertice(verticeId2))
+		
+		if(!contieneVertice(verticeId1) & !contieneVertice(verticeId2)) //O(1)
 			return null;
-		for (Arco<T> arco: this.matrizAdyacencia.get(verticeId1)) {
+		for (Arco<T> arco: this.matrizAdyacencia.get(verticeId1)) { //O(h), h = cantidad de arcos salientes del vertice pasado 
 			if (arco.getVerticeDestino() == verticeId2)
 				return arco;
 		}
@@ -139,13 +145,13 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 
 	/**
-      * Complejidad: O(1) debido se usa una Linkedlist para 
-      * guardar los vértices adyacentes
+      * Complejidad: O(h) debido a que itera sobre los arcos del vértice 
+      * desde el cual se buscan los adyacentes
 	  */
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
 		ArrayList<Integer> adyacentes = new ArrayList<>();
-		for (Arco<T> arco : this.matrizAdyacencia.get(verticeId)){
+		for (Arco<T> arco : this.matrizAdyacencia.get(verticeId)){ //O(h) = h arcos salientes desde verticeId
 			adyacentes.add(arco.getVerticeDestino());
 		}
 		return adyacentes.iterator();
@@ -154,14 +160,13 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	
 
 	/**
-      * Complejidad: O(V * A) donde V son todos los vértices del grafo y 
-	  *  A son  los arcos salientes desde cada V pero debiendo recorrer a todos los del grafo.
+      * Complejidad: O(V) donde V son todos los vértices del grafo 
       */
 	@Override
 	public Iterator<Arco<T>> obtenerArcos() {
 		ArrayList<Arco<T>> arcovich = new ArrayList<>();
-		for(Integer key : matrizAdyacencia.keySet()){
-			arcovich.addAll(matrizAdyacencia.get(key));
+		for(Integer key : matrizAdyacencia.keySet()){  //O(V)
+			arcovich.addAll(matrizAdyacencia.get(key)); //O(1) el addAll por agregar al final, O(1) por acceder al HashMap
 		}
 		return arcovich.iterator();
 	}
@@ -175,7 +180,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	public Iterator<Arco<T>> obtenerArcos(int verticeId) {
 		if(!this.contieneVertice(verticeId))
 			return null;
-		return this.matrizAdyacencia.get(verticeId).iterator();
+		return this.matrizAdyacencia.get(verticeId).iterator(); //O(1)
 	}
 
 	///////////////////////////////////// TO STRING GRAFO /////////////////////////////////////
