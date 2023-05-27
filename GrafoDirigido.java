@@ -23,16 +23,23 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public void borrarVertice(int verticeId) {
-		if(this.contieneVertice(verticeId)){
-			this.matrizAdyacencia.remove(verticeId);
-			for (Integer key : matrizAdyacencia.keySet()){
-
-				for(Arco<T> arco : matrizAdyacencia.get(key)){
-					if(arco.getVerticeDestino() == verticeId)
-						this.matrizAdyacencia.get(key).remove(arco);
+		Iterator<Integer> verticeIdIterator = this.matrizAdyacencia.keySet().iterator(); // O(1)
+		while(verticeIdIterator.hasNext()){   // // O(V) puede ser que en el peor de los casas  deba recorrer todos los vertices para encontrar en que busca borrar
+			Integer vertice = verticeIdIterator.next();  // O(1)
+			if(vertice != verticeId){
+				ArrayList<Arco<T>> arcosQueNoApuntanAlVerticeBorrado = new ArrayList<Arco<T>>();
+				ArrayList<Arco<T>> arcos = this.matrizAdyacencia.get(vertice); // O(1)
+				Iterator<Arco<T>> arcosIterator = arcos.iterator(); // O(1)
+				while(arcosIterator.hasNext()){   // O(A) siendo A arcos que apuntan al vertice borrado
+					Arco<T> arco = arcosIterator.next(); // O(1)
+					if(arco.getVerticeDestino() != verticeId){
+						arcosQueNoApuntanAlVerticeBorrado.add(arco); // O(1)
+					}
 				}
+				this.matrizAdyacencia.replace(vertice, arcosQueNoApuntanAlVerticeBorrado); // O(1)
 			}
 		}
+		this.matrizAdyacencia.remove(verticeId); // O(1)
 	}
 	
 	/**
