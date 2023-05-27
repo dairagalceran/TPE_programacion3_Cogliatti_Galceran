@@ -42,7 +42,6 @@ public interface Grafo<T> {
 	// Obtiene un iterador que me permite recorrer todos los arcos que parten desde verticeId
 	public Iterator<Arco<T>> obtenerArcos(int verticeId);
 	
-//	public void imprimirGrafo();
 	@Override
 	public String toString();
 	
