@@ -85,10 +85,14 @@ public class MainGrafo {
     System.out.println("Grafo contiene vertice #6 ? " + grafo.contieneVertice(6));
     System.out.println("Grafo contiene vertice #9 ? " + grafo.contieneVertice(9));
 
-    // verificar contiene arco
+    // verificar existe arco
     System.out.println("\n-------------------------------");
-    System.out.println("Grafo contiene arco #7 -> #2 ? " + grafo.existeArco(7,2));
+    System.out.println("Existe arco #7 -> #2 ? " + grafo.existeArco(7,2));
+    System.out.println("Existe arco #8 -> #4 ? " + grafo.existeArco(8,4));
+
+    // verificar contiene arco
     System.out.println("Grafo contiene arco #1 -> #2 ? " + grafo.obtenerArco(1,2));
+    System.out.println("Grafo contiene arco #5 -> #4 ? " + grafo.obtenerArco(5,4));
 
     // mostar arcos
     System.out.println("\n-------------------------------");
