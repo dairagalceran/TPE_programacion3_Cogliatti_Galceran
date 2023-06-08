@@ -33,19 +33,18 @@ public class ServicioDFS {
 
 		while(iteratorVerticesColor.hasNext()){
 			Integer verticeId = iteratorVerticesColor.next();	
-																				//System.out.println("verticeId "+ verticeId+ " -> color " + verticesColor.get(verticeId));
+
 			if(verticesColor.get(verticeId).equals("white")){
 				caminoVertices.addAll(this.dfsForest(verticeId));
 			}					
 		}
-																				//System.out.println("return def "+ caminoVertices);
 		return caminoVertices;
 	}
 	
 
 	private List<Integer> dfsForest(int verticeId){
 		List<Integer> caminoVerticesAdyacentes = new ArrayList<>();
-		Iterator<Integer> iteratorVerticesAdyacentes = this.grafo.obtenerAdyacentes(verticeId);																	//System.out.println(verticesColor.get(verticeId).equals("yellow"));
+		Iterator<Integer> iteratorVerticesAdyacentes = this.grafo.obtenerAdyacentes(verticeId);
 
 		if(verticesColor.get(verticeId).equals("white")){
 			verticesColor.put(verticeId, "yellow");	
@@ -54,15 +53,15 @@ public class ServicioDFS {
 
 		while(iteratorVerticesAdyacentes.hasNext()){
 			Integer verticeProximo = iteratorVerticesAdyacentes.next();
-																				//System.out.println(verticesColor.get(verticeProximo).equals("yellow"));
+
 			String verticeColor =  this.verticesColor.get(verticeProximo);
-																				//System.out.println("verticeproximo "+ verticeProximo+ " -> color " + verticesColor.get(verticeProximo));
+
 			if( verticeColor.equals("white")){
-				verticesColor.replace(verticeProximo, verticeColor);
+				verticesColor.replace(verticeProximo, verticeColor); // esta linea esta de mas
 				caminoVerticesAdyacentes.addAll(this.dfsForest(verticeProximo));
 			}
 		}
-																			//	System.out.println("return dfs con VERTICE "+ caminoVerticesAdyacentes);
+		verticesColor.replace(verticeId, "black"); // me parece que faltaba esta linea
 		return caminoVerticesAdyacentes;
 	}
 
