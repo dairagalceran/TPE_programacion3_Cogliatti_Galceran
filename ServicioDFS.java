@@ -46,7 +46,7 @@ public class ServicioDFS {
 		List<Integer> caminoVerticesAdyacentes = new ArrayList<>();
 		Iterator<Integer> iteratorVerticesAdyacentes = this.grafo.obtenerAdyacentes(verticeId);
 
-		if(verticesColor.get(verticeId).equals("white")){
+		if(verticesColor.get(verticeId).equals("white")){ // este if no estaria de mas? porque los vetices que entran a dfs ya se comprobaron blancos anterioromente
 			verticesColor.put(verticeId, "yellow");	
 			caminoVerticesAdyacentes.add(verticeId);
 		}	
@@ -57,11 +57,11 @@ public class ServicioDFS {
 			String verticeColor =  this.verticesColor.get(verticeProximo);
 
 			if( verticeColor.equals("white")){
-				verticesColor.replace(verticeProximo, verticeColor); // esta linea esta de mas
+				verticesColor.replace(verticeProximo, verticeColor); // esta linea esta de mas? porque si entra por ser blanco, se seteara nuevamente en blanco...
 				caminoVerticesAdyacentes.addAll(this.dfsForest(verticeProximo));
 			}
 		}
-		verticesColor.replace(verticeId, "black"); // me parece que faltaba esta linea
+		verticesColor.replace(verticeId, "black"); // me parece que faltaba esta linea, setear en negro los que agotaron recorrido
 		return caminoVerticesAdyacentes;
 	}
 
