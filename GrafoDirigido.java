@@ -3,11 +3,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class GrafoDirigido<T> implements Grafo<T> {
-
     private HashMap< Integer , ArrayList<Arco<T>>> matrizAdyacencia;
+	int cantArcos;
 
 	public GrafoDirigido(){
-		this.matrizAdyacencia = new HashMap< Integer , ArrayList<Arco<T>>>();	
+		this.matrizAdyacencia = new HashMap< Integer , ArrayList<Arco<T>>>();
+		this.cantArcos = 0;
 	}
 
 	/**
@@ -30,24 +31,28 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	@Override
 	public void borrarVertice(int verticeId) {
 		Iterator<Integer> verticeIdIterator = this.matrizAdyacencia.keySet().iterator(); // O(1)
+
 		while(verticeIdIterator.hasNext()){   // // O(V) puede ser que en el peor de los casas  deba recorrer todos los vertices para encontrar en que busca borrar
 			Integer vertice = verticeIdIterator.next();  // O(1)
+
 			if(vertice != verticeId){
-				ArrayList<Arco<T>> arcosQueNoApuntanAlVerticeBorrado = new ArrayList<Arco<T>>();
 				ArrayList<Arco<T>> arcos = this.matrizAdyacencia.get(vertice); // O(1)
 				Iterator<Arco<T>> arcosIterator = arcos.iterator(); // O(1)
+
 				while(arcosIterator.hasNext()){   // O(a) siendo a arcos que apuntan al vertice borrado
 					Arco<T> arco = arcosIterator.next(); // O(1)
-					if(arco.getVerticeDestino() != verticeId){
-						arcosQueNoApuntanAlVerticeBorrado.add(arco); // O(1)
+
+					if(arco.getVerticeDestino() == verticeId){
+						this.cantArcos --;
+						arcosIterator.remove(); // O(1)
 					}
 				}
-				this.matrizAdyacencia.replace(vertice, arcosQueNoApuntanAlVerticeBorrado); // O(1)
 			}
 		}
+		this.cantArcos = this.cantArcos - this.matrizAdyacencia.get(verticeId).size();
 		this.matrizAdyacencia.remove(verticeId); // O(1)
 	}
-	
+
 	/**
       * Complejidad: O(2a) = O(a) debido a que deben verificar si existe  el Arco
       * "buscar el tamaño de las claves del hashMap  de la matrizAdyacencia
@@ -55,9 +60,10 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
-		if(this.contieneVertice(verticeId1) & this.contieneVertice(verticeId2)){
+		if(!this.existeArco(verticeId1,verticeId2) && this.contieneVertice(verticeId1) && this.contieneVertice(verticeId2)){
 			Arco<T> arco = new Arco<T>(verticeId1,verticeId2,etiqueta);
 			this.matrizAdyacencia.get(verticeId1).add(arco);
+			this.cantArcos ++;
 		}
 	}
 
@@ -69,8 +75,10 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	@Override
 	public void borrarArco(int verticeId1, int verticeId2) {
 		Arco<T> arco = this.obtenerArco(verticeId1,verticeId2); //O(a)
-		if( arco !=null )
+		if( arco !=null ){
 			this.matrizAdyacencia.get(verticeId1).remove(arco); //O(1) - O(1)
+			this.cantArcos --;
+		}
 	}
 
 	/**
@@ -94,14 +102,14 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	/**
       * Complejidad: O(h) donde en el peor de los casos 
-	  *O(h), h = cantidad de arcos salientes del vertice pasado 
+	  *O(h), h = cantidad de arcos salientes del vertice pasado
       */
 	@Override
 	public Arco<T> obtenerArco(int verticeId1, int verticeId2) {
-		
+
 		if(!contieneVertice(verticeId1) & !contieneVertice(verticeId2)) //O(1)
 			return null;
-		for (Arco<T> arco: this.matrizAdyacencia.get(verticeId1)) { //O(h), h = cantidad de arcos salientes del vertice pasado 
+		for (Arco<T> arco: this.matrizAdyacencia.get(verticeId1)) { //O(h), h = cantidad de arcos salientes del vertice pasado
 			if (arco.getVerticeDestino() == verticeId2)
 				return arco;
 		}
@@ -125,13 +133,9 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public int cantidadArcos() {
-		int count = 0;
-		for( ArrayList<Arco<T>> arcos: this.matrizAdyacencia.values()){
-			count += arcos.size();
-		}
-		return count;
+		return this.cantArcos;
 	}
-		
+
 	/**
       * Complejidad: O(1)  debido a que  se utiliza la 
       * función  keySet() de HashMap devuelve un iterator  sobre los vertices  o  claves obtenidos por keySet()
@@ -157,7 +161,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		return adyacentes.iterator();
 	}
 
-	
+
 
 	/**
       * Complejidad: O(V) donde V son todos los vértices del grafo 

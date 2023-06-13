@@ -47,7 +47,7 @@ public class ServicioCaminos {
 				this.caminosQueCumplen.add(aux);  //Agrego el camino posible a la lista de camins que cumplen
 			} else {
 				// verificar que el camino parcial no exeda el limite
-				if (caminoParcial.size() < this.lim) {
+				if (arcosRecorridos.size() < this.lim) {// <--------------------------------------------------------------------------------------
 				Iterator<?> iteratorArcosSalientes = (Iterator<?>) this.grafo.obtenerArcos(verticeId); // Itero los arcos salientes desde verticeId
 				while (iteratorArcosSalientes.hasNext()) {
 					Arco<?> arcoSaliente = (Arco<?>) iteratorArcosSalientes.next();

@@ -40,8 +40,6 @@ public class MainGrafo {
     grafo.agregarArco(1, 5, 70);
     grafo.agregarArco(2, 5, 75);
 
-
-
     /*
      *
      *   TESTEO DE METODOS DE GRAFO
@@ -98,7 +96,7 @@ public class MainGrafo {
     System.out.println("\n-------------------------------");
     System.out.println("Cantidad de arcos en el grafo: " + grafo.cantidadArcos());
 
-    System.out.println("Los arcos del grafo son:");
+    System.out.println("Los arcos del grafo son: ");
     Iterator<Arco<Integer>> itA = grafo.obtenerArcos();
     int count = 0;
     while (itA.hasNext()) {
